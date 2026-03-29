@@ -1,19 +1,13 @@
 {
   "name": "kuis-tebak-skor",
   "version": "1.0.0",
-  "description": "Kuis Tebak Skor Liverpool vs Real Madrid - Prediksi skor akurat dan menangkan hadiah menarik",
+  "description": "Kuis Tebak Skor dengan Panel Admin",
   "main": "index.html",
   "scripts": {
     "start": "serve .",
     "dev": "serve ."
   },
-  "keywords": [
-    "kuis",
-    "tebak-skor",
-    "prediksi",
-    "liverpool",
-    "real-madrid"
-  ],
+  "keywords": ["kuis", "tebak-skor", "leaderboard", "admin-panel"],
   "author": "Your Name",
   "license": "MIT",
   "devDependencies": {
