@@ -1,13 +1,19 @@
 {
   "name": "kuis-tebak-skor",
   "version": "1.0.0",
-  "description": "Kuis Tebak Skor dengan Panel Admin",
+  "description": "Kuis Tebak Skor dengan Panel Admin - Prediksi skor pertandingan",
   "main": "index.html",
   "scripts": {
     "start": "serve .",
     "dev": "serve ."
   },
-  "keywords": ["kuis", "tebak-skor", "leaderboard", "admin-panel"],
+  "keywords": [
+    "kuis",
+    "tebak-skor",
+    "prediksi",
+    "leaderboard",
+    "admin-panel"
+  ],
   "author": "Your Name",
   "license": "MIT",
   "devDependencies": {
