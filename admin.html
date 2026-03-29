@@ -2,177 +2,834 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Kuis Tebak Skor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Kuis Tebak Skor | Prediksi Akurat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0a0f1e 0%, #0a1a2a 50%, #0a0f1e 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(10, 20, 35, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #2dd4bf);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-brand i {
+            background: none;
+            color: #3b82f6;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header */
+        .header-section {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header-section h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa, #2dd4bf);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Main Grid - 2 Columns */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 968px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .form-panel, .leaderboard-panel {
+            background: rgba(15, 25, 45, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .panel-header i {
+            font-size: 1.25rem;
+            color: #3b82f6;
+        }
+
+        .panel-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .panel-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            background: rgba(59, 130, 246, 0.2);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(59, 130, 246, 0.4);
+            color: #60a5fa;
+        }
+
+        /* Match Info */
+        .match-info {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+            text-align: center;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.375rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-badge.upcoming {
+            background: rgba(234, 179, 8, 0.2);
+            color: #fbbf24;
+        }
+
+        .status-badge.live {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-badge.ended {
+            background: rgba(107, 114, 128, 0.2);
+            color: #9ca3af;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .team-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .team-card {
+            text-align: center;
+        }
+
+        .team-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #1e293b;
+            border: 2px solid #3b82f6;
+            margin-bottom: 0.75rem;
+        }
+
+        .vs-divider {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #3b82f6;
+        }
+
+        /* Form */
+        .quiz-form {
+            padding: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            color: #e2e8f0;
+            font-size: 0.875rem;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .score-inputs {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .score-inputs input {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .vs-colon {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #3b82f6;
+        }
+
+        .error-message {
+            font-size: 0.7rem;
+            color: #f87171;
+            margin-top: 0.375rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .countdown-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(45, 212, 191, 0.1));
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            margin: 1.25rem 0;
+        }
+
+        .countdown-timer {
+            font-family: monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #60a5fa;
+            letter-spacing: 4px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            border: none;
+            border-radius: 1rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.625rem;
+            border-radius: 0.75rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            background: rgba(59, 130, 246, 0.15);
+            color: #94a3b8;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .action-btn:hover {
+            background: rgba(59, 130, 246, 0.3);
+            color: #60a5fa;
+        }
+
+        .disabled-alert {
+            margin: 0 1.5rem 1.5rem;
+            padding: 0.75rem;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 0.75rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #f87171;
+        }
+
+        /* Leaderboard */
+        .leaderboard-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+        .leaderboard-table-container {
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 25, 45, 0.95);
+            padding: 0.875rem 0.75rem;
+            text-align: left;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #64748b;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .leaderboard-table td {
+            padding: 0.875rem 0.75rem;
+            font-size: 0.875rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .rank-1 td:first-child { color: #fbbf24; font-weight: 800; }
+        .rank-2 td:first-child { color: #94a3b8; font-weight: 700; }
+        .rank-3 td:first-child { color: #cd7b4c; font-weight: 700; }
+
+        .status-correct {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(34, 197, 94, 0.15);
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            color: #4ade80;
+        }
+
+        .status-wrong {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(239, 68, 68, 0.15);
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            color: #f87171;
+        }
+
+        .status-pending {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(234, 179, 8, 0.15);
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            color: #fbbf24;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #64748b;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0f1925, #0a0f1a);
+            border-radius: 1.5rem;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            max-height: 60vh;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-secondary {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.75rem;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .team-logo { width: 70px; height: 70px; }
+            .countdown-timer { font-size: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <i class="fas fa-crown"></i>
-                <span>Admin Panel</span>
-            </div>
-            <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
-                <a href="admin.html" class="active"><i class="fas fa-cog"></i> Admin</a>
-            </div>
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-brand">
+            <i class="fas fa-futbol"></i>
+            <span>Kuis Tebak Skor</span>
         </div>
-    </nav>
-
-    <div class="container">
-        <div class="header-section">
-            <h1>Panel <span class="gradient-text">Administrator</span></h1>
-            <p>Kelola pertandingan, leaderboard, dan pengaturan kuis</p>
+        <div class="nav-links">
+            <a href="index.html" class="active"><i class="fas fa-home"></i> Beranda</a>
+            <a href="admin.html"><i class="fas fa-cog"></i> Admin Panel</a>
         </div>
+    </div>
+</nav>
 
-        <div class="admin-grid">
-            <!-- Setup Pertandingan -->
-            <div class="admin-card">
-                <div class="admin-card-header">
-                    <i class="fas fa-futbol"></i>
-                    <h2>Setup Pertandingan</h2>
-                </div>
-                <div class="admin-card-body">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label><i class="fas fa-home"></i> Tim Tuan Rumah</label>
-                            <input type="text" id="homeTeamName" placeholder="Contoh: Liverpool">
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-flag-checkered"></i> Tim Tamu</label>
-                            <input type="text" id="awayTeamName" placeholder="Contoh: Real Madrid">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label><i class="fas fa-image"></i> Logo Tuan Rumah (URL)</label>
-                            <input type="text" id="homeTeamLogo" placeholder="https://...">
-                            <div class="logo-preview">
-                                <img id="homePreview" src="https://placehold.co/100x100/1e293b/3b82f6?text=LOGO" alt="Preview">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-image"></i> Logo Tamu (URL)</label>
-                            <input type="text" id="awayTeamLogo" placeholder="https://...">
-                            <div class="logo-preview">
-                                <img id="awayPreview" src="https://placehold.co/100x100/1e293b/3b82f6?text=LOGO" alt="Preview">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label><i class="far fa-calendar"></i> Tanggal & Waktu</label>
-                            <input type="datetime-local" id="matchDateTime">
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-tag"></i> Status</label>
-                            <select id="matchStatus">
-                                <option value="upcoming">🟡 Akan Datang</option>
-                                <option value="live">🟢 Sedang Berlangsung</option>
-                                <option value="ended">🔴 Selesai</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label><i class="fas fa-clock"></i> Skor Akhir (Tuan Rumah)</label>
-                            <input type="number" id="finalScoreHome" placeholder="0" min="0">
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-clock"></i> Skor Akhir (Tamu)</label>
-                            <input type="number" id="finalScoreAway" placeholder="0" min="0">
-                        </div>
-                    </div>
-                    
-                    <button id="saveMatchBtn" class="btn-primary full-width">
-                        <i class="fas fa-save"></i> Simpan Pengaturan
-                    </button>
-                </div>
+<div class="container">
+    <div class="header-section">
+        <h1>Prediksi Skor <span class="gradient-text">Pertandingan</span></h1>
+        <p>Tebak skor dengan tepat dan menangkan hadiah menarik!</p>
+    </div>
+
+    <div class="main-grid">
+        <!-- LEFT: Form Panel -->
+        <div class="form-panel">
+            <div class="panel-header">
+                <i class="fas fa-pen-alt"></i>
+                <h2>Form Tebakan</h2>
             </div>
             
-            <!-- Pengaturan Lainnya -->
-            <div class="admin-card">
-                <div class="admin-card-header">
-                    <i class="fas fa-sliders-h"></i>
-                    <h2>Pengaturan Lainnya</h2>
+            <div class="match-info">
+                <div id="matchStatusContainer"></div>
+                <div class="team-display">
+                    <div class="team-card">
+                        <img id="homeLogo" class="team-logo" src="https://placehold.co/100x100/1e293b/3b82f6?text=LIV" alt="Home">
+                        <h3 id="homeName">Liverpool</h3>
+                    </div>
+                    <div class="vs-divider">VS</div>
+                    <div class="team-card">
+                        <img id="awayLogo" class="team-logo" src="https://placehold.co/100x100/1e293b/3b82f6?text=RMA" alt="Away">
+                        <h3 id="awayName">Real Madrid</h3>
+                    </div>
                 </div>
-                <div class="admin-card-body">
-                    <div class="form-group">
-                        <label><i class="far fa-hourglass"></i> Batas Waktu Tebak (menit)</label>
-                        <input type="number" id="deadlineMinutes" value="90" min="1" max="1440">
-                        <div class="input-hint">Dihitung mundur dari waktu pertandingan</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label><i class="fas fa-gavel"></i> Syarat & Ketentuan</label>
-                        <textarea id="rulesText" rows="6" placeholder="Tulis syarat & ketentuan di sini..."></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label><i class="fas fa-gift"></i> Info Hadiah</label>
-                        <textarea id="prizeText" rows="4" placeholder="Tulis info hadiah di sini..."></textarea>
-                    </div>
-                    
-                    <button id="saveSettingsBtn" class="btn-primary full-width">
-                        <i class="fas fa-save"></i> Simpan Pengaturan
-                    </button>
+                <div id="matchDateTime" class="text-sm text-gray-400"></div>
+            </div>
+            
+            <form id="predictionForm" class="quiz-form">
+                <div class="input-group">
+                    <label><i class="fas fa-user-circle"></i> Username / Nickname</label>
+                    <input type="text" id="username" placeholder="Contoh: JackSparrow">
+                    <div class="error-message" id="userError"></div>
                 </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-futbol"></i> Prediksi Skor</label>
+                    <div class="score-inputs">
+                        <input type="number" id="scoreHome" placeholder="0" min="0" max="99">
+                        <span class="vs-colon">:</span>
+                        <input type="number" id="scoreAway" placeholder="0" min="0" max="99">
+                    </div>
+                    <div class="error-message" id="scoreError"></div>
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fab fa-whatsapp"></i> Nomor WhatsApp</label>
+                    <input type="tel" id="contact" placeholder="08xxxxxxxxxx">
+                    <div class="error-message" id="contactError"></div>
+                </div>
+                
+                <div class="countdown-box">
+                    <div class="countdown-timer" id="timerDisplay">01:30:00</div>
+                </div>
+                
+                <button type="submit" id="submitBtn" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Kirim Tebakan
+                </button>
+                
+                <div class="action-buttons">
+                    <button type="button" id="rulesBtn" class="action-btn"><i class="fas fa-gavel"></i> Syarat</button>
+                    <button type="button" id="prizeBtn" class="action-btn"><i class="fas fa-trophy"></i> Hadiah</button>
+                </div>
+            </form>
+            
+            <div id="disabledMessage" class="disabled-alert hidden">
+                <i class="fas fa-ban"></i> Waktu tebak sudah habis!
             </div>
         </div>
         
-        <!-- Manajemen Leaderboard -->
-        <div class="admin-card full-width">
-            <div class="admin-card-header">
+        <!-- RIGHT: Leaderboard Panel -->
+        <div class="leaderboard-panel">
+            <div class="panel-header">
                 <i class="fas fa-trophy"></i>
-                <h2>Manajemen Leaderboard</h2>
-                <div class="card-actions">
-                    <button id="calculateWinners" class="btn-success">
-                        <i class="fas fa-crown"></i> Hitung Pemenang
-                    </button>
-                    <button id="resetLeaderboard" class="btn-danger">
-                        <i class="fas fa-trash-alt"></i> Reset Semua
-                    </button>
+                <h2>Leaderboard</h2>
+                <div class="panel-actions">
+                    <button id="refreshLeaderboard" class="icon-btn"><i class="fas fa-sync-alt"></i></button>
+                    <button id="checkMyPrediction" class="icon-btn"><i class="fas fa-search"></i></button>
                 </div>
             </div>
-            <div class="admin-card-body">
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>WhatsApp</th>
-                                <th>Prediksi</th>
-                                <th>Waktu Tebak</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminLeaderboardBody">
-                            <tr class="empty-row">
-                                <td colspan="7">
-                                    <div class="empty-state">
-                                        <i class="fas fa-inbox"></i>
-                                        <p>Belum ada data tebakan</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            
+            <div class="leaderboard-stats">
+                <div><span class="text-gray-500 text-sm">Total Peserta:</span> <span id="totalParticipants" class="stat-value">0</span></div>
+                <div><span class="text-gray-500 text-sm">Skor Akhir:</span> <span id="finalScoreDisplay" class="stat-value">- : -</span></div>
+            </div>
+            
+            <div class="leaderboard-table-container">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr><th>#</th><th>Pemain</th><th>Prediksi</th><th>Waktu</th><th>Status</th></tr>
+                    </thead>
+                    <tbody id="leaderboardBody"></tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="admin-script.js"></script>
+<!-- Modal Syarat -->
+<div id="rulesModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h3><i class="fas fa-gavel"></i> Syarat & Ketentuan</h3><button class="modal-close" onclick="closeModal('rulesModal')">&times;</button></div>
+        <div class="modal-body" id="rulesContent"></div>
+        <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('rulesModal')">Tutup</button></div>
+    </div>
+</div>
+
+<!-- Modal Hadiah -->
+<div id="prizeModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h3><i class="fas fa-gift"></i> Info Hadiah</h3><button class="modal-close" onclick="closeModal('prizeModal')">&times;</button></div>
+        <div class="modal-body" id="prizeContent"></div>
+        <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('prizeModal')">Tutup</button></div>
+    </div>
+</div>
+
+<script>
+// ============ DATA ============
+let config = {
+    homeTeam: { name: "Liverpool", logo: "https://placehold.co/100x100/1e293b/3b82f6?text=LIV" },
+    awayTeam: { name: "Real Madrid", logo: "https://placehold.co/100x100/1e293b/3b82f6?text=RMA" },
+    matchDate: new Date(new Date().getTime() + 2 * 60 * 60 * 1000).toISOString().slice(0, 16),
+    matchStatus: "upcoming",
+    finalScore: { home: null, away: null },
+    rules: "1. 1 akun hanya 1 kali submit\n2. Tebakan sebelum pertandingan dimulai\n3. Pemenang berdasarkan skor tepat & waktu tercepat\n4. Keputusan admin mutlak",
+    prizes: "🏆 HADIAH 🏆\n\n🥇 Gold: Rp 500.000\n🥈 Silver: Rp 200.000\n🎫 Free: E-Voucher Rp 50.000"
+};
+
+let predictions = [];
+let timerInterval = null;
+
+// Load data
+function loadData() {
+    const savedConfig = localStorage.getItem('quiz_config');
+    if (savedConfig) config = JSON.parse(savedConfig);
+    else localStorage.setItem('quiz_config', JSON.stringify(config));
+    
+    const savedPredictions = localStorage.getItem('quiz_predictions');
+    if (savedPredictions) predictions = JSON.parse(savedPredictions);
+    else localStorage.setItem('quiz_predictions', JSON.stringify(predictions));
+    
+    updateDisplay();
+    startCountdown();
+}
+
+function updateDisplay() {
+    document.getElementById('homeName').innerText = config.homeTeam.name;
+    document.getElementById('awayName').innerText = config.awayTeam.name;
+    document.getElementById('homeLogo').src = config.homeTeam.logo;
+    document.getElementById('awayLogo').src = config.awayTeam.logo;
+    
+    const matchDate = new Date(config.matchDate);
+    document.getElementById('matchDateTime').innerHTML = `<i class="far fa-calendar-alt"></i> ${matchDate.toLocaleDateString('id-ID')} • ${matchDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB`;
+    
+    const statusMap = { upcoming: 'upcoming', live: 'live', ended: 'ended' };
+    const statusClass = statusMap[config.matchStatus] || 'upcoming';
+    const statusText = { upcoming: 'Segera Dimulai', live: 'Sedang Berlangsung!', ended: 'Telah Berakhir' };
+    document.getElementById('matchStatusContainer').innerHTML = `<span class="status-badge ${statusClass}"><i class="fas ${config.matchStatus === 'live' ? 'fa-play' : config.matchStatus === 'ended' ? 'fa-flag-checkered' : 'fa-clock'}"></i> ${statusText[config.matchStatus]}</span>`;
+    
+    if (config.finalScore.home !== null) {
+        document.getElementById('finalScoreDisplay').innerHTML = `${config.finalScore.home} : ${config.finalScore.away}`;
+    }
+    
+    updateLeaderboard();
+}
+
+function updateLeaderboard() {
+    const tbody = document.getElementById('leaderboardBody');
+    document.getElementById('totalParticipants').innerText = predictions.length;
+    
+    if (!predictions.length) {
+        tbody.innerHTML = `<tr><td colspan="5" class="empty-state"><i class="fas fa-chart-line"></i><p>Belum ada tebakan</p></td></tr>`;
+        return;
+    }
+    
+    const sorted = [...predictions].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    let html = '';
+    sorted.forEach((pred, idx) => {
+        let masked = pred.username.length > 4 ? pred.username.slice(0,4)+'**' : pred.username.slice(0,2)+'***';
+        let rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : '';
+        
+        let statusHtml = '<span class="status-pending"><i class="fas fa-hourglass-half"></i> Menunggu</span>';
+        if (config.matchStatus === 'ended' && config.finalScore.home !== null) {
+            const isCorrect = (pred.scoreHome === config.finalScore.home && pred.scoreAway === config.finalScore.away);
+            statusHtml = isCorrect ? '<span class="status-correct"><i class="fas fa-check-circle"></i> Tepat</span>' : '<span class="status-wrong"><i class="fas fa-times-circle"></i> Tidak Tepat</span>';
+        }
+        
+        html += `<tr class="${rankClass}">
+            <td>${idx+1}</td>
+            <td><i class="fas fa-user-circle"></i> ${masked}</td>
+            <td><strong>${pred.scoreHome} : ${pred.scoreAway}</strong></td>
+            <td>${new Date(pred.timestamp).toLocaleTimeString()}</td>
+            <td>${statusHtml}</td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+
+function startCountdown() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        const matchTime = new Date(config.matchDate).getTime();
+        const now = new Date().getTime();
+        const diff = matchTime - now;
+        
+        if (diff <= 0) {
+            clearInterval(timerInterval);
+            document.getElementById('timerDisplay').innerHTML = "00:00:00";
+            document.getElementById('predictionForm').style.opacity = '0.5';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('disabledMessage').classList.remove('hidden');
+            return;
+        }
+        
+        const hours = Math.floor(diff / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        document.getElementById('timerDisplay').innerHTML = `${String(hours).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    }, 1000);
+}
+
+// Submit form
+document.getElementById('predictionForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const username = document.getElementById('username').value.trim();
+    const scoreHome = parseInt(document.getElementById('scoreHome').value);
+    const scoreAway = parseInt(document.getElementById('scoreAway').value);
+    const contact = document.getElementById('contact').value.trim();
+    
+    let valid = true;
+    if (username.length < 3) { document.getElementById('userError').innerText = 'Minimal 3 karakter'; document.getElementById('userError').classList.add('show'); valid = false; }
+    else { document.getElementById('userError').classList.remove('show'); }
+    
+    if (isNaN(scoreHome) || isNaN(scoreAway)) { document.getElementById('scoreError').innerText = 'Isi skor dengan angka'; document.getElementById('scoreError').classList.add('show'); valid = false; }
+    else { document.getElementById('scoreError').classList.remove('show'); }
+    
+    if (!contact.match(/^[0-9]{10,13}$/)) { document.getElementById('contactError').innerText = 'Nomor WA 10-13 digit'; document.getElementById('contactError').classList.add('show'); valid = false; }
+    else { document.getElementById('contactError').classList.remove('show'); }
+    
+    if (predictions.some(p => p.username.toLowerCase() === username.toLowerCase())) { alert('Username sudah dipakai!'); return; }
+    if (!valid) return;
+    
+    predictions.push({ id: Date.now(), username, contact, scoreHome, scoreAway, timestamp: new Date().toISOString() });
+    localStorage.setItem('quiz_predictions', JSON.stringify(predictions));
+    alert(`✅ Tebakan berhasil! ${username}: ${scoreHome} : ${scoreAway}`);
+    document.getElementById('username').value = '';
+    document.getElementById('scoreHome').value = '';
+    document.getElementById('scoreAway').value = '';
+    document.getElementById('contact').value = '';
+    updateLeaderboard();
+});
+
+// Buttons
+document.getElementById('refreshLeaderboard').onclick = () => updateLeaderboard();
+document.getElementById('checkMyPrediction').onclick = () => {
+    const name = prompt('Masukkan username:');
+    if (name) {
+        const found = predictions.find(p => p.username.toLowerCase() === name.toLowerCase());
+        alert(found ? `✅ Ditemukan!\nPrediksi: ${found.scoreHome}:${found.scoreAway}\nWaktu: ${new Date(found.timestamp).toLocaleString()}` : '❌ Tidak ditemukan');
+    }
+};
+
+// Modals
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+document.getElementById('rulesBtn').onclick = () => {
+    document.getElementById('rulesContent').innerHTML = config.rules.replace(/\n/g, '<br>');
+    openModal('rulesModal');
+};
+document.getElementById('prizeBtn').onclick = () => {
+    document.getElementById('prizeContent').innerHTML = config.prizes.replace(/\n/g, '<br>');
+    openModal('prizeModal');
+};
+
+loadData();
+</script>
 </body>
 </html>
