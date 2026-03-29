@@ -1,56 +1,37 @@
-# Kuis Tebak Skor - Liverpool vs Real Madrid
+# 🏆 Kuis Tebak Skor
 
-Aplikasi web interaktif untuk kuis tebak skor pertandingan Liverpool vs Real Madrid dengan tampilan modern, responsif, dan fitur lengkap.
+Aplikasi web interaktif untuk kuis tebak skor pertandingan dengan panel admin lengkap.
 
-## ✨ Fitur
+## ✨ Fitur Lengkap
 
-### Layout Modern
-- **Desktop**: Form kiri, Result kanan (side-by-side)
-- **Tablet & Mobile**: Responsif, otomatis stack vertikal
-- Glassmorphism design dengan neon glow effect
+### Halaman Utama
+- **Layout 2 Kolom** - Form kiri, Leaderboard kanan (Desktop)
+- **Responsive Design** - Otomatis stack di mobile
+- **Countdown Timer** - Hitung mundur otomatis
+- **Validasi Input** - Username, skor, nomor WA
+- **Leaderboard Real-time** - Ranking berdasarkan waktu submit
+- **Masking Username** - Privasi terjaga
+- **Modal Syarat & Hadiah** - Informasi lengkap
 
-### Form Tebakan
-- Input username, prediksi skor, nomor WA
-- Pilihan tiket (Free, Silver, Gold)
-- Countdown timer otomatis
-- Validasi input lengkap
-- Form otomatis terkunci saat waktu habis
+### Panel Admin
+- **Setup Pertandingan** - Edit nama tim, logo, jadwal
+- **Input Skor Akhir** - Untuk menentukan pemenang
+- **Manajemen Leaderboard** - Hapus tebakan, reset semua
+- **Hitung Pemenang** - Otomatis berdasarkan akurasi & waktu
+- **Edit Syarat & Hadiah** - Bebas diubah kapan saja
 
-### Leaderboard
-- Tabel real-time dengan scroll area
-- Username di-masking untuk privasi
-- Fitur cek tebakan sendiri
-- Refresh dan lihat semua data
+## 🚀 Cara Penggunaan
 
-### Informasi Lengkap
-- Modal Syarat & Ketentuan
-- Modal Cara Ikut
-- Modal Info Hadiah
-- Tombol akses cepat di form
+### Admin
+1. Buka `admin.html`
+2. Setup tim, logo, jadwal pertandingan
+3. Set skor akhir setelah pertandingan selesai
+4. Hitung pemenang otomatis
 
-## 🚀 Demo
+### Peserta
+1. Buka `index.html`
+2. Isi username, prediksi skor, nomor WA
+3. Kirim sebelum waktu habis
+4. Cek leaderboard untuk lihat ranking
 
-Live demo: [https://kuis-tebak-skor.vercel.app](https://kuis-tebak-skor.vercel.app)
-
-## 🛠️ Teknologi
-
-- HTML5
-- Tailwind CSS
-- Vanilla JavaScript
-- Font Awesome Icons
-- Vercel (Hosting)
-
-## 📦 Instalasi Lokal
-
-```bash
-# Clone repository
-git clone https://github.com/username/kuis-tebak-skor.git
-
-# Masuk ke folder
-cd kuis-tebak-skor
-
-# Install dependencies (opsional, untuk serve lokal)
-npm install
-
-# Jalankan lokal
-npm start
+## 📦
