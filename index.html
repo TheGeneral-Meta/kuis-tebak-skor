@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Kuis Tebak Skor | Prediksi Akurat Liverpool vs Real Madrid</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Kuis Tebak Skor | Prediksi Akurat</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome 6 (Free Icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Custom Styles untuk melengkapi Tailwind */
         * {
             margin: 0;
             padding: 0;
@@ -17,31 +14,25 @@
         }
         
         body {
-            background: radial-gradient(circle at 10% 30%, #0a0f1e, #03060c);
+            background: linear-gradient(135deg, #0a0f1e 0%, #0a1a2a 100%);
             font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
         }
         
         /* Glassmorphism Card */
         .glass-card {
-            background: rgba(15, 25, 45, 0.65);
+            background: rgba(10, 20, 35, 0.85);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5);
             transition: all 0.2s ease;
         }
         
-        .glass-card:hover {
-            border-color: rgba(0, 255, 255, 0.5);
-            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 255, 255, 0.2);
-        }
-        
-        /* Custom scroll untuk result panel */
+        /* Custom scroll */
         .result-scroll {
-            max-height: 480px;
+            max-height: 500px;
             overflow-y: auto;
             scrollbar-width: thin;
-            scrollbar-color: #0ff #1e2a3a;
         }
         
         .result-scroll::-webkit-scrollbar {
@@ -49,665 +40,285 @@
         }
         
         .result-scroll::-webkit-scrollbar-track {
-            background: #1e2a3a;
+            background: #1e293b;
             border-radius: 10px;
         }
         
         .result-scroll::-webkit-scrollbar-thumb {
-            background: #0ff;
+            background: #3b82f6;
             border-radius: 10px;
         }
         
-        /* Neon Input Focus */
-        input:focus, select:focus, textarea:focus {
-            box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.4);
+        /* Neon Input */
+        input:focus, select:focus {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
             outline: none;
-            border-color: #0ff;
+            border-color: #3b82f6;
         }
         
-        /* Disabled state form */
+        /* Disabled form */
         .form-disabled input, 
         .form-disabled select, 
-        .form-disabled button:not(.force-active) {
-            opacity: 0.6;
+        .form-disabled button {
+            opacity: 0.5;
             pointer-events: none;
         }
         
-        /* Modern Table */
+        /* Table Styles */
         .result-table {
             width: 100%;
             border-collapse: collapse;
         }
         
         .result-table th {
-            background: rgba(0, 30, 50, 0.7);
-            backdrop-filter: blur(4px);
+            background: rgba(30, 41, 59, 0.9);
             position: sticky;
             top: 0;
             z-index: 10;
+            padding: 12px;
             font-weight: 600;
-            letter-spacing: 0.3px;
         }
         
-        .result-table td, .result-table th {
-            padding: 12px 8px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+        .result-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
         }
         
         .result-table tr:hover td {
-            background: rgba(0, 255, 255, 0.05);
+            background: rgba(59, 130, 246, 0.1);
         }
         
-        /* Countdown Timer */
-        .countdown-badge {
-            background: linear-gradient(135deg, #0f172a, #020617);
-            border-left: 4px solid #0ff;
+        /* Rank badges */
+        .rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+        .rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); }
+        .rank-3 { background: linear-gradient(135deg, #cd7b4c, #b45309); }
+        
+        /* Countdown */
+        .countdown-timer {
+            font-family: monospace;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
         }
         
-        button:active {
-            transform: scale(0.97);
-        }
-        
-        .btn-glow {
-            transition: all 0.2s;
-        }
-        
-        .btn-glow:hover {
-            box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
-        }
-        
-        /* modal backdrop */
+        /* Modal */
         .modal-backdrop {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
         }
         
         /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
         
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
         
-        /* Responsive fixes */
-        @media (max-width: 1024px) {
-            .result-scroll {
-                max-height: 400px;
-            }
+        /* Team logo */
+        .team-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #1e293b;
+            border: 2px solid #3b82f6;
         }
         
         @media (max-width: 768px) {
-            .result-scroll {
-                max-height: 350px;
+            .team-logo {
+                width: 50px;
+                height: 50px;
+            }
+            .countdown-timer {
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
-<body class="text-gray-200 antialiased">
+<body class="text-gray-200">
 
-    <div class="max-w-7xl mx-auto px-4 py-6 md:py-8 lg:py-10 fade-in">
-        <!-- Header Utama -->
-        <div class="mb-6 flex flex-wrap justify-between items-center gap-3">
+    <div class="max-w-7xl mx-auto px-4 py-6 md:py-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6 flex-wrap gap-3">
             <div>
-                <h1 class="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
-                    <i class="fas fa-futbol text-cyan-400"></i> Kuis Tebak Skor
+                <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                    <i class="fas fa-futbol text-blue-400"></i> Kuis Tebak Skor
                 </h1>
                 <p class="text-gray-400 text-sm mt-1">Prediksi skor akurat, menangkan hadiah menarik!</p>
             </div>
-            <div class="flex gap-2">
-                <button id="rulesBtn" class="bg-gray-800/60 border border-cyan-500/40 hover:border-cyan-400 text-cyan-300 px-4 py-2 rounded-xl text-sm font-medium transition flex items-center gap-2">
-                    <i class="fas fa-scroll"></i> Syarat & Ketentuan
-                </button>
-                <button id="howToPlayBtn" class="bg-gray-800/60 border border-gray-600 hover:border-cyan-400 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition flex items-center gap-2">
-                    <i class="fas fa-question-circle"></i> Cara Ikut
-                </button>
-            </div>
+            <a href="admin.html" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-xl text-sm flex items-center gap-2 transition">
+                <i class="fas fa-cog"></i> Panel Admin
+            </a>
         </div>
 
-        <!-- LAYOUT UTAMA: 2 KOLOM (FORM KIRI | RESULT KANAN) -->
+        <!-- Main Layout: 2 Columns -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            <!-- ========== KOLOM KIRI: FORM KUIS ========== -->
+            <!-- LEFT: Form Kuis -->
             <div class="lg:col-span-1">
-                <div class="glass-card rounded-2xl p-5 md:p-6 transition-all">
-                    <!-- Info Pertandingan -->
-                    <div class="text-center border-b border-cyan-500/30 pb-4 mb-4">
-                        <div class="text-xs uppercase tracking-wider text-cyan-400 font-semibold">
-                            <i class="fas fa-trophy"></i> BIG MATCH
+                <div class="glass-card rounded-2xl p-5 md:p-6">
+                    <!-- Match Info -->
+                    <div class="text-center border-b border-blue-500/30 pb-5 mb-4">
+                        <div id="matchStatus" class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 bg-yellow-500/20 text-yellow-400">
+                            <i class="fas fa-clock"></i> <span id="statusText">Segera Dimulai</span>
                         </div>
-                        <div class="flex items-center justify-center gap-6 my-3">
+                        
+                        <div class="flex items-center justify-center gap-4 md:gap-8 my-4">
                             <div class="text-center">
-                                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-3xl shadow-lg border-2 border-cyan-400/50">
-                                    🏴󠁧󠁢󠁥󠁮󠁧󠁿
-                                </div>
-                                <div class="font-bold mt-1 text-sm md:text-base">Liverpool</div>
+                                <img id="homeLogo" class="team-logo w-20 h-20 mx-auto" src="https://placehold.co/100x100/1e293b/3b82f6?text=HOME" alt="Home Team">
+                                <div id="homeName" class="font-bold mt-2 text-lg">Liverpool</div>
                             </div>
-                            <div class="text-2xl font-black text-cyan-300">VS</div>
+                            <div class="text-3xl font-black text-blue-400">VS</div>
                             <div class="text-center">
-                                <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-yellow-600 to-yellow-800 flex items-center justify-center text-3xl shadow-lg border-2 border-cyan-400/50">
-                                    🇪🇸
-                                </div>
-                                <div class="font-bold mt-1 text-sm md:text-base">Real Madrid</div>
+                                <img id="awayLogo" class="team-logo w-20 h-20 mx-auto" src="https://placehold.co/100x100/1e293b/3b82f6?text=AWAY" alt="Away Team">
+                                <div id="awayName" class="font-bold mt-2 text-lg">Real Madrid</div>
                             </div>
                         </div>
-                        <div class="text-xs text-gray-400">
+                        
+                        <div id="matchDateTime" class="text-xs text-gray-400">
                             <i class="far fa-calendar-alt"></i> Sabtu, 12 April 2025 • 19:45 WIB
-                        </div>
-                        <div class="text-xs text-cyan-300 mt-1">
-                            <i class="fas fa-tv"></i> Live: Vidio / SCTV
                         </div>
                     </div>
 
-                    <!-- Form Tebak Skor -->
-                    <div id="quizFormContainer">
-                        <form id="predictionForm" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-1">
-                                    <i class="fas fa-user-circle mr-1"></i> Username / Nickname
-                                </label>
-                                <input type="text" id="username" placeholder="Contoh: Jacksparrow" 
-                                    class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-cyan-400 transition">
-                                <div id="userError" class="text-red-400 text-xs mt-1 hidden"></div>
+                    <!-- Form -->
+                    <form id="predictionForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">
+                                <i class="fas fa-user-circle"></i> Username / Nickname
+                            </label>
+                            <input type="text" id="username" placeholder="Contoh: Jacksparrow" 
+                                class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 focus:border-blue-500 transition">
+                            <div id="userError" class="text-red-400 text-xs mt-1 hidden"></div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-1">
+                                <i class="fas fa-futbol"></i> Prediksi Skor
+                            </label>
+                            <div class="flex gap-3 items-center">
+                                <input type="number" id="scoreHome" placeholder="0" 
+                                    class="w-1/2 bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-center">
+                                <span class="text-blue-400 font-bold text-xl">:</span>
+                                <input type="number" id="scoreAway" placeholder="0" 
+                                    class="w-1/2 bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-center">
                             </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-1">
-                                    <i class="fas fa-futbol mr-1"></i> Prediksi Skor
-                                </label>
-                                <div class="flex gap-3 items-center">
-                                    <input type="number" id="scoreHome" placeholder="0" 
-                                        class="w-1/3 bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-center text-white">
-                                    <span class="text-cyan-400 font-bold text-xl">:</span>
-                                    <input type="number" id="scoreAway" placeholder="0" 
-                                        class="w-1/3 bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-center text-white">
-                                </div>
-                                <div id="scoreError" class="text-red-400 text-xs mt-1 hidden"></div>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-1">
-                                    <i class="fab fa-whatsapp mr-1"></i> No. WhatsApp / ID
-                                </label>
-                                <input type="tel" id="contact" placeholder="08xxxxxxxxxx" 
-                                    class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-white">
-                                <div id="contactError" class="text-red-400 text-xs mt-1 hidden"></div>
-                                <div class="text-xs text-gray-500 mt-1">
-                                    <i class="fas fa-shield-alt"></i> *Digunakan untuk konfirmasi hadiah
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-1">
-                                    <i class="fas fa-ticket-alt mr-1"></i> Tipe Tiket
-                                </label>
-                                <select id="ticketType" class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-white">
-                                    <option value="Free">🎫 Free Entry (Non-Berhadiah)</option>
-                                    <option value="Silver">🥈 Silver Ticket (Rp 25.000)</option>
-                                    <option value="Gold">🥇 Gold Ticket (Rp 50.000 + Bonus)</option>
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-1">
-                                    <i class="fas fa-coins mr-1"></i> Nominal (Opsional)
-                                </label>
-                                <input type="number" id="amount" placeholder="Minimal 0" value="0" 
-                                    class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-white">
-                                <div class="text-xs text-gray-500 mt-1">
-                                    *Silver/Gold tiket akan diverifikasi admin via WhatsApp
-                                </div>
-                            </div>
-                            
-                            <!-- Countdown status -->
-                            <div id="countdownArea" class="countdown-badge bg-gray-900/60 p-3 rounded-xl flex justify-between items-center">
-                                <span class="text-sm font-medium">
-                                    <i class="far fa-clock"></i> Batas Tebak:
-                                </span>
-                                <span id="timerDisplay" class="font-mono text-lg font-bold text-cyan-300">01:30:00</span>
-                            </div>
-                            
-                            <!-- Tombol Submit -->
-                            <button type="submit" id="submitBtn" 
-                                class="w-full py-3.5 bg-gradient-to-r from-cyan-600 to-blue-700 rounded-xl font-bold text-white shadow-lg btn-glow transition-all text-lg flex items-center justify-center gap-2">
-                                <i class="fas fa-paper-plane"></i> Kirim Tebakan
+                            <div id="scoreError" class="text-red-400 text-xs mt-1 hidden"></div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-1">
+                                <i class="fab fa-whatsapp"></i> No. WhatsApp
+                            </label>
+                            <input type="tel" id="contact" placeholder="08xxxxxxxxxx" 
+                                class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3">
+                            <div id="contactError" class="text-red-400 text-xs mt-1 hidden"></div>
+                        </div>
+                        
+                        <!-- Countdown -->
+                        <div class="bg-gray-900/50 p-3 rounded-xl flex justify-between items-center">
+                            <span class="text-sm"><i class="far fa-clock"></i> Batas Tebak:</span>
+                            <span id="timerDisplay" class="countdown-timer text-blue-400">01:30:00</span>
+                        </div>
+                        
+                        <button type="submit" id="submitBtn" 
+                            class="w-full py-3.5 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl font-bold text-white transition hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane"></i> Kirim Tebakan
+                        </button>
+                        
+                        <div class="flex gap-2 justify-center">
+                            <button type="button" id="rulesBtn" class="text-xs bg-gray-800/50 px-3 py-2 rounded-lg hover:bg-gray-700 transition">
+                                <i class="fas fa-gavel"></i> Syarat
                             </button>
-                            
-                            <!-- Grup Tombol Info Tambahan -->
-                            <div class="flex flex-wrap gap-2 pt-2 justify-between">
-                                <button type="button" id="viewRulesBtnSm" 
-                                    class="text-xs bg-gray-800/70 px-3 py-2 rounded-lg border border-gray-700 hover:border-cyan-400 transition">
-                                    <i class="fas fa-gavel mr-1"></i> Syarat
-                                </button>
-                                <button type="button" id="viewPrizeBtn" 
-                                    class="text-xs bg-gray-800/70 px-3 py-2 rounded-lg border border-gray-700 hover:border-cyan-400 transition">
-                                    <i class="fas fa-gift mr-1"></i> Info Hadiah
-                                </button>
-                                <button type="button" id="howToPlayBtnSm" 
-                                    class="text-xs bg-gray-800/70 px-3 py-2 rounded-lg border border-gray-700 hover:border-cyan-400 transition">
-                                    <i class="fas fa-play-circle mr-1"></i> Cara Ikut
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                            <button type="button" id="prizeBtn" class="text-xs bg-gray-800/50 px-3 py-2 rounded-lg hover:bg-gray-700 transition">
+                                <i class="fas fa-gift"></i> Hadiah
+                            </button>
+                        </div>
+                    </form>
                     
-                    <!-- Pesan disabled saat waktu habis -->
                     <div id="disabledMessage" class="hidden mt-4 bg-red-900/40 border border-red-500 rounded-xl p-3 text-center text-sm">
-                        <i class="fas fa-ban"></i> Waktu tebak sudah habis! Form terkunci.
+                        <i class="fas fa-ban"></i> Waktu tebak sudah habis!
                     </div>
                 </div>
             </div>
-
-            <!-- ========== KOLOM KANAN: RESULT / LEADERBOARD ========== -->
+            
+            <!-- RIGHT: Leaderboard -->
             <div class="lg:col-span-2">
-                <div class="glass-card rounded-2xl p-5 md:p-6 h-full flex flex-col">
-                    <div class="flex justify-between items-center flex-wrap gap-3 border-b border-cyan-500/30 pb-3 mb-3">
+                <div class="glass-card rounded-2xl p-5 md:p-6">
+                    <div class="flex justify-between items-center flex-wrap gap-3 mb-4 pb-3 border-b border-blue-500/30">
                         <h2 class="text-xl font-bold flex items-center gap-2">
-                            <i class="fas fa-trophy text-yellow-400"></i> Result & Leaderboard
+                            <i class="fas fa-trophy text-yellow-400"></i> Leaderboard
                         </h2>
                         <div class="flex gap-2">
-                            <button id="checkMyPredictionBtn" 
-                                class="bg-gray-800 hover:bg-gray-700 text-sm px-3 py-1.5 rounded-lg border border-gray-600 transition">
-                                <i class="fas fa-search"></i> Cek Tebakan Anda
-                            </button>
-                            <button id="refreshResultBtn" 
-                                class="bg-gray-800 hover:bg-gray-700 text-sm px-3 py-1.5 rounded-lg border border-gray-600 transition">
+                            <button id="refreshLeaderboard" class="bg-gray-800 hover:bg-gray-700 text-sm px-3 py-1.5 rounded-lg transition">
                                 <i class="fas fa-sync-alt"></i> Refresh
                             </button>
-                            <button id="showAllResultBtn" 
-                                class="bg-gray-800 hover:bg-gray-700 text-sm px-3 py-1.5 rounded-lg border border-gray-600 transition">
-                                <i class="fas fa-list-ul"></i> Lihat Semua
+                            <button id="checkMyPrediction" class="bg-gray-800 hover:bg-gray-700 text-sm px-3 py-1.5 rounded-lg transition">
+                                <i class="fas fa-search"></i> Cek Saya
                             </button>
                         </div>
                     </div>
                     
-                    <!-- Tabel Scrollable -->
-                    <div class="result-scroll flex-1">
-                        <table class="result-table w-full text-sm">
-                            <thead class="text-cyan-300 text-xs uppercase">
-                                <tr>
-                                    <th class="text-left"><i class="fas fa-user"></i> Username</th>
-                                    <th class="text-left"><i class="fas fa-futbol"></i> Tebakan</th>
-                                    <th class="text-left"><i class="far fa-clock"></i> Waktu</th>
+                    <div class="result-scroll">
+                        <table class="result-table">
+                            <thead>
+                                <tr class="text-blue-300 text-sm">
+                                    <th class="text-center w-12">#</th>
+                                    <th class="text-left">Pemain</th>
+                                    <th class="text-center">Prediksi</th>
+                                    <th class="text-center">Waktu</th>
+                                    <th class="text-center">Status</th>
                                 </tr>
                             </thead>
-                            <tbody id="resultTableBody">
-                                <tr>
-                                    <td colspan="3" class="text-center py-8 text-gray-400">
-                                        <i class="fas fa-spinner fa-pulse mr-2"></i> Memuat data...
-                                    </td>
-                                </tr>
+                            <tbody id="leaderboardBody">
+                                <tr><td colspan="5" class="text-center py-8 text-gray-400">Belum ada tebakan</td></tr>
                             </tbody>
                         </table>
                     </div>
                     
-                    <div class="text-xs text-gray-500 border-t border-gray-800 pt-2 mt-2 flex justify-between">
-                        <span><i class="fas fa-shield-alt"></i> *Username di-masking untuk privasi</span>
-                        <span id="totalEntriesCount">0 tebakan masuk</span>
+                    <div class="text-xs text-gray-500 border-t border-gray-800 pt-3 mt-3 flex justify-between">
+                        <span><i class="fas fa-shield-alt"></i> *Username di-masking</span>
+                        <span id="totalPredictions">0 tebakan</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL Syarat & Ketentuan (popup modern) -->
-    <div id="rulesModal" class="fixed inset-0 flex items-center justify-center z-50 hidden transition-all duration-300 modal-backdrop">
-        <div class="bg-[#0c1126] border border-cyan-500/50 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all">
-            <div class="flex justify-between items-center p-5 border-b border-cyan-500/30">
-                <h3 class="text-xl font-bold text-cyan-300">
-                    <i class="fas fa-gavel mr-2"></i> Syarat & Ketentuan
-                </h3>
+    <!-- Modal Syarat -->
+    <div id="rulesModal" class="fixed inset-0 flex items-center justify-center z-50 hidden modal-backdrop">
+        <div class="bg-gray-900 border border-blue-500 rounded-2xl max-w-md w-full mx-4">
+            <div class="flex justify-between items-center p-5 border-b border-gray-700">
+                <h3 class="text-xl font-bold text-blue-400"><i class="fas fa-gavel"></i> Syarat & Ketentuan</h3>
                 <button id="closeRulesModal" class="text-gray-400 hover:text-white text-2xl">&times;</button>
             </div>
-            <div class="p-5 space-y-3 text-gray-300 text-sm max-h-[60vh] overflow-y-auto">
-                <p><i class="fas fa-check-circle text-cyan-400 mr-2"></i> 1 akun hanya boleh 1 kali submit.</p>
-                <p><i class="fas fa-check-circle text-cyan-400 mr-2"></i> Tebakan harus dikirim sebelum pertandingan dimulai (19:45 WIB).</p>
-                <p><i class="fas fa-check-circle text-cyan-400 mr-2"></i> Setelah waktu habis, form otomatis terkunci dan tidak dapat submit.</p>
-                <p><i class="fas fa-check-circle text-cyan-400 mr-2"></i> Pemenang berdasarkan tebakan paling akurat (skor tepat).</p>
-                <p><i class="fas fa-check-circle text-cyan-400 mr-2"></i> Jika skor sama, pemenang ditentukan dari waktu submit tercepat.</p>
-                <p><i class="fas fa-check-circle text-cyan-400 mr-2"></i> Data yang sudah dikirim tidak bisa diubah atau dihapus.</p>
-                <p><i class="fas fa-check-circle text-cyan-400 mr-2"></i> Keputusan admin bersifat mutlak dan tidak dapat diganggu gugat.</p>
-                <p><i class="fas fa-check-circle text-cyan-400 mr-2"></i> Hadiah akan dikirim ke nomor WA yang terdaftar maksimal 3x24 jam.</p>
-                <p><i class="fas fa-check-circle text-cyan-400 mr-2"></i> Tiket berbayar wajib melakukan pembayaran sebelum pertandingan dimulai.</p>
+            <div class="p-5 space-y-2 text-sm max-h-96 overflow-y-auto" id="rulesContent">
+                <!-- Content from admin -->
             </div>
-            <div class="p-4 border-t border-cyan-500/30 flex justify-end">
-                <button id="closeRulesModalBtn" class="bg-cyan-700 hover:bg-cyan-600 px-5 py-2 rounded-lg text-white transition">
-                    Tutup
-                </button>
+            <div class="p-4 border-t border-gray-700 flex justify-end">
+                <button id="closeRulesModalBtn" class="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-lg">Tutup</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL Cara Ikut -->
-    <div id="howtoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden modal-backdrop">
-        <div class="bg-[#0c1126] border border-cyan-500/50 rounded-2xl max-w-md w-full mx-4 shadow-2xl">
-            <div class="flex justify-between items-center p-5 border-b border-cyan-500/30">
-                <h3 class="text-xl font-bold text-cyan-300">
-                    <i class="fas fa-play-circle mr-2"></i> Cara Ikut
-                </h3>
-                <button id="closeHowtoModal" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-            </div>
-            <div class="p-5 space-y-3 text-gray-300 text-sm">
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-black font-bold text-xs">1</div>
-                    <p>Isi username dan prediksi skor Liverpool vs Real Madrid.</p>
-                </div>
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-black font-bold text-xs">2</div>
-                    <p>Masukkan nomor WhatsApp yang aktif untuk konfirmasi hadiah.</p>
-                </div>
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-black font-bold text-xs">3</div>
-                    <p>Pilih tiket (Free / Silver / Gold) untuk menentukan kategori hadiah.</p>
-                </div>
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-black font-bold text-xs">4</div>
-                    <p>Klik "Kirim Tebakan" sebelum waktu habis.</p>
-                </div>
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-black font-bold text-xs">5</div>
-                    <p>Pantau leaderboard di sebelah kanan. Pemenang akan diumumkan setelah pertandingan selesai.</p>
-                </div>
-                <div class="mt-3 p-3 bg-cyan-900/30 rounded-lg">
-                    <p class="text-cyan-400 text-xs">
-                        <i class="fas fa-info-circle"></i> *Tiket berbayar akan diverifikasi oleh admin via WhatsApp.
-                    </p>
-                </div>
-            </div>
-            <div class="p-4 border-t border-cyan-500/30 flex justify-end">
-                <button id="closeHowtoModalBtn" class="bg-cyan-700 hover:bg-cyan-600 px-5 py-2 rounded-lg transition">
-                    Mengerti
-                </button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- MODAL Info Hadiah -->
+    <!-- Modal Hadiah -->
     <div id="prizeModal" class="fixed inset-0 flex items-center justify-center z-50 hidden modal-backdrop">
-        <div class="bg-[#0c1126] border border-cyan-500/50 rounded-2xl max-w-md w-full mx-4 shadow-2xl">
-            <div class="flex justify-between items-center p-5 border-b border-cyan-500/30">
-                <h3 class="text-xl font-bold text-cyan-300">
-                    <i class="fas fa-gift mr-2"></i> Info Hadiah
-                </h3>
+        <div class="bg-gray-900 border border-blue-500 rounded-2xl max-w-md w-full mx-4">
+            <div class="flex justify-between items-center p-5 border-b border-gray-700">
+                <h3 class="text-xl font-bold text-blue-400"><i class="fas fa-gift"></i> Info Hadiah</h3>
                 <button id="closePrizeModal" class="text-gray-400 hover:text-white text-2xl">&times;</button>
             </div>
-            <div class="p-5 space-y-4">
-                <div class="bg-gradient-to-r from-yellow-600/20 to-yellow-800/20 p-4 rounded-xl border border-yellow-500/30">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="text-3xl">🥇</div>
-                        <div class="font-bold text-yellow-400">Gold Ticket (Rp 50.000)</div>
-                    </div>
-                    <p class="text-gray-300 text-sm ml-10">Rp 500.000 + Merchandise Official + E-Voucher 100K</p>
-                </div>
-                
-                <div class="bg-gradient-to-r from-gray-600/20 to-gray-800/20 p-4 rounded-xl border border-gray-500/30">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="text-3xl">🥈</div>
-                        <div class="font-bold text-gray-300">Silver Ticket (Rp 25.000)</div>
-                    </div>
-                    <p class="text-gray-300 text-sm ml-10">Rp 200.000 + Voucher Bonus 50K</p>
-                </div>
-                
-                <div class="bg-gradient-to-r from-amber-600/20 to-amber-800/20 p-4 rounded-xl border border-amber-500/30">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="text-3xl">🎫</div>
-                        <div class="font-bold text-amber-400">Free Entry</div>
-                    </div>
-                    <p class="text-gray-300 text-sm ml-10">E-Voucher Rp 50.000 (untuk 5 tebakan akurat tercepat)</p>
-                </div>
-                
-                <div class="text-xs text-cyan-400 mt-2 p-2 bg-cyan-900/20 rounded-lg">
-                    <i class="fas fa-trophy"></i> *Hadiah akan ditransfer ke rekening/e-wallet pemenang maksimal 3x24 jam.
-                </div>
+            <div class="p-5 space-y-2 text-sm" id="prizeContent">
+                <!-- Content from admin -->
             </div>
-            <div class="p-4 border-t border-cyan-500/30 flex justify-end">
-                <button id="closePrizeModalBtn" class="bg-cyan-700 hover:bg-cyan-600 px-5 py-2 rounded-lg transition">
-                    Tutup
-                </button>
+            <div class="p-4 border-t border-gray-700 flex justify-end">
+                <button id="closePrizeModalBtn" class="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-lg">Tutup</button>
             </div>
         </div>
     </div>
 
-    <script>
-        // ============ DATA DUMMY LEADERBOARD ============
-        let predictions = [
-            { username: "Jacks**", score: "2 - 1", timestamp: "2025-04-10 19:20:22", ticket: "Gold" },
-            { username: "Liver**", score: "1 - 1", timestamp: "2025-04-10 18:55:10", ticket: "Silver" },
-            { username: "Madr***", score: "3 - 2", timestamp: "2025-04-10 18:30:05", ticket: "Free" },
-            { username: "Kopit***", score: "2 - 0", timestamp: "2025-04-10 17:12:44", ticket: "Gold" },
-            { username: "ElCla***", score: "1 - 2", timestamp: "2025-04-10 16:58:30", ticket: "Silver" },
-            { username: "RedM***", score: "0 - 0", timestamp: "2025-04-10 15:40:21", ticket: "Free" },
-            { username: "Berm***", score: "3 - 1", timestamp: "2025-04-10 14:22:09", ticket: "Gold" },
-            { username: "Anfi***", score: "2 - 2", timestamp: "2025-04-10 13:15:42", ticket: "Silver" },
-            { username: "Santi**", score: "1 - 0", timestamp: "2025-04-10 12:08:33", ticket: "Free" },
-            { username: "ViniJ*", score: "0 - 2", timestamp: "2025-04-10 11:45:17", ticket: "Gold" }
-        ];
-
-        // Fungsi render tabel dengan masking username
-        function renderLeaderboard(data) {
-            const tbody = document.getElementById('resultTableBody');
-            if(!data || data.length === 0){
-                tbody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-gray-400">Belum ada tebakan</td></tr>';
-                document.getElementById('totalEntriesCount').innerText = "0 tebakan masuk";
-                return;
-            }
-            
-            let html = '';
-            data.forEach(item => {
-                // Masking username
-                let maskedUser = item.username;
-                if(item.username.length > 4) {
-                    maskedUser = item.username.slice(0,4) + '**';
-                } else if(item.username.length > 2) {
-                    maskedUser = item.username.slice(0,2) + '***';
-                }
-                
-                html += `<tr class="hover:bg-cyan-900/20 transition cursor-pointer">
-                            <td class="font-medium">
-                                <i class="fas fa-user-circle text-cyan-400 mr-1"></i> ${maskedUser}
-                            </td>
-                            <td class="font-mono text-cyan-300 font-bold">${item.score}</td>
-                            <td class="text-gray-400 text-xs">${item.timestamp}</td>
-                         </tr>`;
-            });
-            tbody.innerHTML = html;
-            document.getElementById('totalEntriesCount').innerText = data.length + " tebakan masuk";
-        }
-
-        // Simulasi tambah tebakan baru
-        function addPrediction(usernameRaw, scoreText, ticketType) {
-            const now = new Date();
-            const formattedTime = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
-            
-            // Mask username untuk ditampilkan
-            let masked = usernameRaw;
-            if(usernameRaw.length > 4) {
-                masked = usernameRaw.slice(0,4) + '**';
-            } else if(usernameRaw.length > 2) {
-                masked = usernameRaw.slice(0,2) + '***';
-            }
-            
-            predictions.unshift({ 
-                username: masked, 
-                score: scoreText, 
-                timestamp: formattedTime, 
-                ticket: ticketType 
-            });
-            renderLeaderboard(predictions);
-        }
-
-        // Countdown Timer (deadline 1.5 jam dari sekarang)
-        let deadline = new Date();
-        deadline.setHours(deadline.getHours() + 1, deadline.getMinutes() + 30, 0);
-        let timerInterval;
-        let formLocked = false;
-
-        function updateCountdown() {
-            const now = new Date();
-            const diff = deadline - now;
-            if (diff <= 0) {
-                clearInterval(timerInterval);
-                document.getElementById('timerDisplay').innerHTML = "00:00:00";
-                document.getElementById('disabledMessage').classList.remove('hidden');
-                document.getElementById('predictionForm').classList.add('form-disabled');
-                formLocked = true;
-                return;
-            }
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const mins = Math.floor((diff % (3600000)) / 60000);
-            const secs = Math.floor((diff % 60000) / 1000);
-            document.getElementById('timerDisplay').innerHTML = `${String(hours).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-        }
-
-        // Validasi dan submit form
-        document.getElementById('predictionForm').addEventListener('submit', function(e){
-            e.preventDefault();
-            if(formLocked){
-                alert("⛔ Waktu tebak sudah habis! Tidak bisa submit.");
-                return;
-            }
-            
-            let username = document.getElementById('username').value.trim();
-            let home = document.getElementById('scoreHome').value;
-            let away = document.getElementById('scoreAway').value;
-            let contact = document.getElementById('contact').value.trim();
-            let ticketType = document.getElementById('ticketType').value;
-
-            let isValid = true;
-            
-            // Validasi username
-            if(username.length < 3){
-                document.getElementById('userError').innerText = "Username minimal 3 karakter";
-                document.getElementById('userError').classList.remove('hidden');
-                isValid = false;
-            } else {
-                document.getElementById('userError').classList.add('hidden');
-            }
-            
-            // Validasi skor
-            if(home === "" || away === "" || isNaN(home) || isNaN(away) || home < 0 || away < 0 || home > 99 || away > 99){
-                document.getElementById('scoreError').innerText = "Skor harus angka 0-99";
-                document.getElementById('scoreError').classList.remove('hidden');
-                isValid = false;
-            } else {
-                document.getElementById('scoreError').classList.add('hidden');
-            }
-            
-            // Validasi WhatsApp
-            if(!contact.match(/^[0-9]{10,13}$/)){
-                document.getElementById('contactError').innerText = "Nomor WA tidak valid (10-13 digit)";
-                document.getElementById('contactError').classList.remove('hidden');
-                isValid = false;
-            } else {
-                document.getElementById('contactError').classList.add('hidden');
-            }
-
-            if(!isValid) return;
-
-            const scorePredict = `${home} - ${away}`;
-            addPrediction(username, scorePredict, ticketType);
-            
-            // Tampilkan alert sesuai tiket
-            let message = `✅ Tebakan berhasil dikirim!\n\nUsername: ${username}\nSkor: ${scorePredict}\nTiket: ${ticketType}`;
-            if(ticketType !== 'Free') {
-                message += `\n\n💳 Silakan melakukan pembayaran sesuai tiket yang dipilih.\nAdmin akan menghubungi Anda via WhatsApp untuk konfirmasi.`;
-            } else {
-                message += `\n\n🎉 Terima kasih telah berpartisipasi!`;
-            }
-            alert(message);
-            
-            // Reset form
-            document.getElementById('username').value = "";
-            document.getElementById('scoreHome').value = "";
-            document.getElementById('scoreAway').value = "";
-            document.getElementById('contact').value = "";
-            document.getElementById('amount').value = "0";
-        });
-
-        // Fitur Cek Tebakan Anda (search by username)
-        document.getElementById('checkMyPredictionBtn').addEventListener('click', ()=>{
-            let inputName = prompt("Masukkan username Anda (tanpa masking):");
-            if(!inputName) return;
-            
-            // Cari di predictions (case insensitive)
-            let found = predictions.find(p => {
-                // Karena username di-masking, kita cari berdasarkan awal username
-                let originalPrefix = inputName.toLowerCase().slice(0,4);
-                let maskedPrefix = p.username.toLowerCase().slice(0,4);
-                return maskedPrefix === originalPrefix;
-            });
-            
-            if(found){
-                alert(`✅ Ditemukan!\n\nUsername: ${found.username}\nTebakan: ${found.score}\nWaktu: ${found.timestamp}\nTiket: ${found.ticket}`);
-            } else {
-                alert("❌ Belum ada tebakan dengan username tersebut atau data belum tersedia.");
-            }
-        });
-
-        // Refresh leaderboard
-        document.getElementById('refreshResultBtn').addEventListener('click', ()=>{
-            renderLeaderboard(predictions);
-            alert("🔄 Leaderboard telah direfresh.");
-        });
-        
-        // Show all results
-        document.getElementById('showAllResultBtn').addEventListener('click', ()=>{
-            renderLeaderboard(predictions);
-        });
-        
-        // ============ MODAL LOGIC ============
-        function openModal(id){ 
-            document.getElementById(id).classList.remove('hidden'); 
-            document.body.style.overflow = 'hidden';
-        }
-        function closeModal(id){ 
-            document.getElementById(id).classList.add('hidden'); 
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Rules Modal
-        document.getElementById('rulesBtn').onclick = () => openModal('rulesModal');
-        document.getElementById('viewRulesBtnSm').onclick = () => openModal('rulesModal');
-        document.getElementById('closeRulesModal').onclick = () => closeModal('rulesModal');
-        document.getElementById('closeRulesModalBtn').onclick = () => closeModal('rulesModal');
-        
-        // How To Play Modal
-        document.getElementById('howToPlayBtn').onclick = () => openModal('howtoModal');
-        document.getElementById('howToPlayBtnSm').onclick = () => openModal('howtoModal');
-        document.getElementById('closeHowtoModal').onclick = () => closeModal('howtoModal');
-        document.getElementById('closeHowtoModalBtn').onclick = () => closeModal('howtoModal');
-        
-        // Prize Modal
-        document.getElementById('viewPrizeBtn').onclick = () => openModal('prizeModal');
-        document.getElementById('closePrizeModal').onclick = () => closeModal('prizeModal');
-        document.getElementById('closePrizeModalBtn').onclick = () => closeModal('prizeModal');
-
-        // Close modal when clicking backdrop
-        window.onclick = (event) => {
-            if(event.target.classList.contains('modal-backdrop')) {
-                document.querySelectorAll('.modal-backdrop').forEach(m => {
-                    m.classList.add('hidden');
-                });
-                document.body.style.overflow = 'auto';
-            }
-        };
-        
-        // Inisialisasi
-        renderLeaderboard(predictions);
-        timerInterval = setInterval(updateCountdown, 1000);
-        updateCountdown();
-        
-        // Tambahan: validasi input number tidak negatif
-        document.getElementById('scoreHome').addEventListener('input', function() {
-            if(this.value < 0) this.value = 0;
-            if(this.value > 99) this.value = 99;
-        });
-        document.getElementById('scoreAway').addEventListener('input', function() {
-            if(this.value < 0) this.value = 0;
-            if(this.value > 99) this.value = 99;
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
